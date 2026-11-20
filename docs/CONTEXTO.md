@@ -80,7 +80,7 @@ flecha, datos reales de Zabbix, persistencia en PostgreSQL, ni armado automátic
 3. **Nodos.** En configuración se eligen los hosts del sitio que se verán en el diagrama (los demás no se agregan). Hay un
    desplegable de categorías (Todos / Firewall / Switch / Servidores / ...) para no mostrar una lista interminable, con la cantidad
    por categoría (la API ya la devuelve en `summary`). Ejemplo en Casa Central: Firewall = `sitio:CAP` + `network` + `firewall`;
-   Switch = `sitio:CAP` + `network` + `switch`; Servidores = `sitio:CAP` + `servidor` (no llevan `network`).
+   Switch = `sitio:CAP` + `network` + `switch`; Servidores = `sitio:CAP` + `servidor` (no llevan `network`); Acces Point = `sitio:CAP` + `access point` (no llevan `network`).
 4. **Conexiones.** Debajo de cada nodo aparece una flecha: se hace click, se arrastra sin soltar hasta otro nodo, el nodo destino
    se ilumina, y al soltar se crea la conexión. Una conexión se puede eliminar. Esto reemplaza al modal actual de "Crear enlace"
    (el modal puede quedar como opción para elegir puertos).
