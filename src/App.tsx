@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { viewVariants } from './lib/motion';
 import {
   SiteId,
   FunctionalAreaId,
@@ -166,6 +168,19 @@ export default function App() {
     }
   };
 
+  // Direccion de la transicion: entrar a un nivel mas profundo = zoom in, volver = zoom out.
+  const VIEW_DEPTH: Record<string, number> = { overview: 0, global_area: 1, site_detail: 1, topology: 2 };
+  const depth = VIEW_DEPTH[viewMode] ?? 0;
+  const prevDepth = useRef(depth);
+  const direction = depth >= prevDepth.current ? 1 : -1;
+  useEffect(() => { prevDepth.current = depth; }, [depth]);
+  const viewKey =
+    viewMode === 'site_detail' || viewMode === 'topology'
+      ? `${viewMode}-${selectedSiteId}`
+      : viewMode === 'global_area'
+      ? `global_area-${selectedAreaId}`
+      : viewMode;
+
   // Filter sites if Guard Mode is active
   const displayedSites = isGuardMode
     ? SITES.filter((s) => s.status === 'critical' || s.status === 'warning')
@@ -229,6 +244,15 @@ export default function App() {
 
       {/* Main Dynamic Viewport */}
       <main className="flex-1 pb-16">
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={viewKey}
+            custom={direction}
+            variants={viewVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
         {viewMode === 'overview' && (
           <OverviewView
             sites={displayedSites}
@@ -275,17 +299,22 @@ export default function App() {
             currentProfile={currentProfile}
           />
         )}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       {/* Modal: Device Complete Technical Diagnostics */}
+      <AnimatePresence>
       {selectedDeviceForModal && (
         <DeviceDetailModal
+          key="device-modal"
           device={selectedDeviceForModal}
           onClose={handleCloseDeviceDetail}
           onPinFloatingWindow={handlePinFloatingWindow}
           onOpenTopology={handleOpenTopology}
         />
       )}
+      </AnimatePresence>
 
       {/* Drawer: Incident Correlation, Root Cause & Power/UPS Assessment */}
       <IncidentCorrelationDrawer

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { fadeVariants, getClickOrigin, zoomFromPoint } from '../../lib/motion';
 import {
   Device,
   MetricPeriod,
@@ -59,6 +61,9 @@ export const DeviceDetailModal: React.FC<DeviceDetailModalProps> = ({
 
   const chartData = generateTimeSeriesMetrics(device.type, selectedPeriod, primaryMetricBase);
 
+  // El modal crece desde donde se hizo click y vuelve hacia ahi al cerrar.
+  const [zoom] = useState(() => zoomFromPoint(getClickOrigin()));
+
   const periods: { id: MetricPeriod; label: string }[] = [
     { id: '1h', label: '1 Hora' },
     { id: '6h', label: '6 Horas' },
@@ -68,8 +73,18 @@ export const DeviceDetailModal: React.FC<DeviceDetailModalProps> = ({
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-4xl max-h-[92vh] flex flex-col rounded-2xl glass-panel-elevated border border-slate-700/80 bg-slate-950/95 shadow-2xl overflow-hidden">
+    <motion.div
+      variants={fadeVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-md"
+    >
+      <motion.div
+        initial={zoom.initial}
+        animate={zoom.animate}
+        exit={zoom.exit}
+        className="relative w-full max-w-4xl max-h-[92vh] flex flex-col rounded-2xl glass-panel-elevated border border-slate-700/80 bg-slate-950/95 shadow-2xl overflow-hidden">
         {/* Modal Header */}
         <div className="px-6 py-4 border-b border-slate-800/80 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -549,7 +564,7 @@ export const DeviceDetailModal: React.FC<DeviceDetailModalProps> = ({
             Cerrar Detalle
           </button>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };

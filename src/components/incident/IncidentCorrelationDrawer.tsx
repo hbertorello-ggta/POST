@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { fadeVariants, drawerVariants } from '../../lib/motion';
 import {
   IncidentCorrelation,
   Site,
@@ -34,8 +36,7 @@ interface IncidentCorrelationDrawerProps {
   onSelectSite: (siteId: string) => void;
 }
 
-export const IncidentCorrelationDrawer: React.FC<IncidentCorrelationDrawerProps> = ({
-  isOpen,
+const DrawerContent: React.FC<IncidentCorrelationDrawerProps> = ({
   onClose,
   incidents,
   sites,
@@ -45,8 +46,6 @@ export const IncidentCorrelationDrawer: React.FC<IncidentCorrelationDrawerProps>
 }) => {
   const [selectedSiteFilter, setSelectedSiteFilter] = useState<string>('all');
   const [activeTab, setActiveTab] = useState<'correlation' | 'all_events'>('correlation');
-
-  if (!isOpen) return null;
 
   const filteredIncidents =
     selectedSiteFilter === 'all'
@@ -65,8 +64,16 @@ export const IncidentCorrelationDrawer: React.FC<IncidentCorrelationDrawerProps>
     .sort((a, b) => (a.status === 'active' ? -1 : 1));
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-slate-950/70 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-2xl h-full glass-panel-elevated bg-slate-950/95 border-l border-slate-700/80 shadow-2xl flex flex-col overflow-hidden">
+    <motion.div
+      variants={fadeVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="fixed inset-0 z-50 flex justify-end bg-slate-950/70 backdrop-blur-sm"
+    >
+      <motion.div
+        variants={drawerVariants}
+        className="relative w-full max-w-2xl h-full glass-panel-elevated bg-slate-950/95 border-l border-slate-700/80 shadow-2xl flex flex-col overflow-hidden">
         {/* Drawer Header */}
         <div className="px-6 py-4 border-b border-slate-800/80 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
@@ -349,7 +356,12 @@ export const IncidentCorrelationDrawer: React.FC<IncidentCorrelationDrawerProps>
             </div>
           )}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
+
+// Monta el drawer solo mientras esta abierto, para poder animar tambien la salida.
+export const IncidentCorrelationDrawer: React.FC<IncidentCorrelationDrawerProps> = (props) => (
+  <AnimatePresence>{props.isOpen && <DrawerContent key="incidents" {...props} />}</AnimatePresence>
+);

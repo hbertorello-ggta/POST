@@ -8,7 +8,12 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "format": "prettier --write \"src/**/*.{ts,tsx,css,md}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx,css,md}\"",
+    "server": "node --env-file=.env server/index.js",
+    "server:dev": "node --watch --env-file=.env server/index.js",
+    "db:migrate": "node --env-file=.env server/migrate.js",
+    "dev:all": "concurrently -k -n web,api \"npm run dev\" \"npm run server:dev\"",
+    "test": "node --test \"server/**/*.test.js\""
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.1",
@@ -40,17 +45,19 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
+    "fastify": "^5.12.8",
     "framer-motion": "^11.0.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "lucide-react": "^0.363.0",
+    "pg": "^8.23.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^6.22.0",
     "recharts": "^2.12.0",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
-    "zustand": "^4.5.0",
-    "html2canvas": "^1.4.1",
-    "jspdf": "^2.5.1"
+    "zustand": "^4.5.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.0",
@@ -60,6 +67,7 @@
     "@typescript-eslint/parser": "^7.0.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.18",
+    "concurrently": "^10.0.7",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",

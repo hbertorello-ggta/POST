@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { EASE_OUT } from '../../lib/motion';
 import {
   FloatingWindowItem,
   MetricPeriod,
@@ -64,8 +66,6 @@ export const FloatingWindowManager: React.FC<FloatingWindowManagerProps> = ({
     setDraggingId(null);
   };
 
-  if (windows.length === 0) return null;
-
   return (
     <div
       className={`fixed inset-0 pointer-events-none z-50 overflow-hidden ${
@@ -74,6 +74,7 @@ export const FloatingWindowManager: React.FC<FloatingWindowManagerProps> = ({
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
     >
+      <AnimatePresence>
       {windows.map((win) => {
         const { device, period, x, y, minimized } = win;
 
@@ -89,8 +90,12 @@ export const FloatingWindowManager: React.FC<FloatingWindowManagerProps> = ({
         const periods: MetricPeriod[] = ['1h', '6h', '24h', '7d'];
 
         return (
-          <div
+          <motion.div
             key={win.id}
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.92 }}
+            transition={{ duration: 0.2, ease: EASE_OUT }}
             className="absolute pointer-events-auto w-80 glass-panel-elevated rounded-xl border border-slate-700/90 shadow-2xl overflow-hidden bg-slate-950/95 transition-shadow"
             style={{ left: `${x}px`, top: `${y}px` }}
           >
@@ -196,9 +201,10 @@ export const FloatingWindowManager: React.FC<FloatingWindowManagerProps> = ({
                 </button>
               </div>
             )}
-          </div>
+          </motion.div>
         );
       })}
+      </AnimatePresence>
     </div>
   );
 };

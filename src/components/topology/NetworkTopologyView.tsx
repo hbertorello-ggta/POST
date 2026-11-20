@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { fadeVariants, popVariants, sidePanelVariants } from '../../lib/motion';
 import {
   TopologyNode,
   TopologyLink,
@@ -550,8 +552,16 @@ export const NetworkTopologyView: React.FC<NetworkTopologyViewProps> = ({
         </div>
 
         {/* Node or Link Inspector Panel (Side Drawer overlay) */}
+        <AnimatePresence>
         {(selectedNode || selectedLink) && (
-          <div className="absolute top-4 right-4 z-20 w-80 max-h-[85vh] overflow-y-auto glass-panel-elevated p-4 rounded-xl border border-slate-700/80 shadow-2xl space-y-4 animate-fade-in">
+          <motion.div
+            key="inspector"
+            variants={sidePanelVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="absolute top-4 right-4 z-20 w-80 max-h-[85vh] overflow-y-auto glass-panel-elevated p-4 rounded-xl border border-slate-700/80 shadow-2xl space-y-4"
+          >
             {/* 1. NODE SELECTED INSPECTOR */}
             {selectedNode && (
               <div className="space-y-3">
@@ -742,14 +752,23 @@ export const NetworkTopologyView: React.FC<NetworkTopologyViewProps> = ({
                 )}
               </div>
             )}
-          </div>
+          </motion.div>
         )}
+        </AnimatePresence>
       </div>
 
       {/* MODAL: Crear Enlace Manual (Section 9.4) */}
+      <AnimatePresence>
       {isConnectModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-lg glass-panel-elevated p-6 rounded-2xl border border-slate-700 space-y-4">
+        <motion.div
+          key="isConnectModalOpen"
+          variants={fadeVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm"
+        >
+          <motion.div variants={popVariants} className="w-full max-w-lg glass-panel-elevated p-6 rounded-2xl border border-slate-700 space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
               <div className="flex items-center gap-2">
                 <LinkIcon className="w-4 h-4 text-cyan-400" />
@@ -865,14 +884,23 @@ export const NetworkTopologyView: React.FC<NetworkTopologyViewProps> = ({
                 Conectar Enlace
               </button>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       {/* MODAL: Agregar Nodo a Topología */}
+      <AnimatePresence>
       {isAddNodeModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-md glass-panel-elevated p-6 rounded-2xl border border-slate-700 space-y-4">
+        <motion.div
+          key="isAddNodeModalOpen"
+          variants={fadeVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm"
+        >
+          <motion.div variants={popVariants} className="w-full max-w-md glass-panel-elevated p-6 rounded-2xl border border-slate-700 space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
               <div className="flex items-center gap-2">
                 <Plus className="w-4 h-4 text-cyan-400" />
@@ -919,17 +947,29 @@ export const NetworkTopologyView: React.FC<NetworkTopologyViewProps> = ({
                 Agregar al Diagrama
               </button>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       {/* Floating Toast Notification */}
-      {toastMessage && (
-        <div className="absolute top-16 left-1/2 -translate-x-1/2 z-50 glass-panel-elevated px-4 py-2 rounded-xl border border-cyan-500/50 text-cyan-300 text-xs font-mono flex items-center gap-2 shadow-2xl animate-fade-in">
-          <Info className="w-4 h-4 text-cyan-400" />
-          <span>{toastMessage}</span>
-        </div>
-      )}
+      <div className="absolute top-16 left-1/2 -translate-x-1/2 z-50">
+        <AnimatePresence>
+          {toastMessage && (
+            <motion.div
+              key="toast"
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+              className="glass-panel-elevated px-4 py-2 rounded-xl border border-cyan-500/50 text-cyan-300 text-xs font-mono flex items-center gap-2 shadow-2xl whitespace-nowrap"
+            >
+              <Info className="w-4 h-4 text-cyan-400" />
+              <span>{toastMessage}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
