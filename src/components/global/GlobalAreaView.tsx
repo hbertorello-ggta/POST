@@ -5,8 +5,8 @@ import {
   FunctionalAreaId,
   Device,
   SiteId,
-} from '../../types/costi';
-import { getGlobalAreaSummaries } from '../../utils/costiLogic';
+} from '../../types/monitoring';
+import { getGlobalAreaSummaries } from '../../utils/monitoringLogic';
 import { StatusBadge } from '../common/StatusBadge';
 import {
   ChevronRight,

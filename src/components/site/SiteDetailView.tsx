@@ -5,8 +5,8 @@ import {
   FunctionalAreaId,
   DeviceCategory,
   Device,
-} from '../../types/costi';
-import { filterDevices } from '../../utils/costiLogic';
+} from '../../types/monitoring';
+import { filterDevices } from '../../utils/monitoringLogic';
 import { StatusBadge } from '../common/StatusBadge';
 import { DeviceIcon } from '../common/DeviceIcon';
 import {

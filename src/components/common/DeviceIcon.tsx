@@ -18,7 +18,7 @@ import {
   Radio,
   Share2,
 } from 'lucide-react';
-import { DeviceType } from '../../types/costi';
+import { DeviceType } from '../../types/monitoring';
 
 interface DeviceIconProps {
   type: DeviceType;

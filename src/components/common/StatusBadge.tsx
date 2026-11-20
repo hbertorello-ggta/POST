@@ -1,5 +1,5 @@
 import React from 'react';
-import { OperationalStatus } from '../../types/costi';
+import { OperationalStatus } from '../../types/monitoring';
 import { CheckCircle2, AlertTriangle, AlertOctagon, HelpCircle } from 'lucide-react';
 
 interface StatusBadgeProps {

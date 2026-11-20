@@ -48,7 +48,7 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
-        // COSTI Semantic Colors
+        // POST Semantic Colors
         productive: {
           DEFAULT: 'hsl(var(--productive))',
           foreground: 'hsl(var(--productive-foreground))',

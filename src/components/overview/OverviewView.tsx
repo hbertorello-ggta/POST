@@ -10,7 +10,7 @@ import {
   ArrowUpRight,
   AlertCircle,
 } from 'lucide-react';
-import { Site, FunctionalArea, FunctionalAreaId } from '../../types/costi';
+import { Site, FunctionalArea, FunctionalAreaId } from '../../types/monitoring';
 import { StatusBadge } from '../common/StatusBadge';
 
 interface OverviewViewProps {
@@ -47,7 +47,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
-            Centro de Operaciones de Soporte TI
+            Portal de Soporte Técnico
           </h1>
           <p className="text-sm text-slate-400 mt-1 max-w-2xl font-normal leading-relaxed">
             Consola centralizada para supervisión continua, topología de red y diagnóstico de

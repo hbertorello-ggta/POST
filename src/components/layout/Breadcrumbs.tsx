@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChevronRight, Home, Building2, Layers, Cpu, Server } from 'lucide-react';
-import { Site, FunctionalArea, DeviceCategory, Device } from '../../types/costi';
+import { Site, FunctionalArea, DeviceCategory, Device } from '../../types/monitoring';
 
 interface BreadcrumbsProps {
   currentSite?: Site;

@@ -5,8 +5,8 @@ import {
   Site,
   Device,
   OperationalStatus,
-} from '../../types/costi';
-import { computeTopologyStats } from '../../utils/costiLogic';
+} from '../../types/monitoring';
+import { computeTopologyStats } from '../../utils/monitoringLogic';
 import { StatusBadge } from '../common/StatusBadge';
 import { DeviceIcon } from '../common/DeviceIcon';
 import {

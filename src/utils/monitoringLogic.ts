@@ -1,5 +1,5 @@
 /**
- * Pure logic and calculations for C.O.S.TI
+ * Pure logic and calculations for POST
  * Decoupled from React UI for easy unit testing.
  */
 
@@ -13,7 +13,7 @@ import {
   TopologyNode,
   TopologyLink,
   IncidentCorrelation,
-} from '../types/costi';
+} from '../types/monitoring';
 
 export interface AreaSummaryForSite {
   siteId: SiteId;

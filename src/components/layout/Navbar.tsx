@@ -8,7 +8,7 @@ import {
   VolumeX,
   ShieldAlert,
 } from 'lucide-react';
-import { Device, Site } from '../../types/costi';
+import { Device, Site } from '../../types/monitoring';
 
 interface NavbarProps {
   currentProfile: 'soporte' | 'admin';
@@ -99,7 +99,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-base font-bold tracking-wider text-slate-100 font-mono">
-                  C.O.S.TI
+                  POST
                 </span>
                 <span className="text-[10px] font-mono tracking-widest px-1.5 py-0.5 rounded bg-cyan-950/70 text-cyan-400 border border-cyan-800/40 uppercase">
                   NOC/SOC

@@ -1,5 +1,5 @@
 /**
- * Web Audio API synthesizer for C.O.S.TI alerts
+ * Web Audio API synthesizer for POST alerts
  * Generates pure synthesizer tones without external media files.
  */
 
@@ -9,7 +9,7 @@ class SoundSystem {
 
   constructor() {
     // AudioContext will be initialized on first user interaction
-    const saved = localStorage.getItem('costi-sound-enabled');
+    const saved = localStorage.getItem('post-sound-enabled');
     if (saved !== null) {
       this.enabled = saved === 'true';
     }
@@ -33,7 +33,7 @@ class SoundSystem {
 
   public toggle(): boolean {
     this.enabled = !this.enabled;
-    localStorage.setItem('costi-sound-enabled', String(this.enabled));
+    localStorage.setItem('post-sound-enabled', String(this.enabled));
     if (this.enabled) {
       this.playSuccessChime();
     }

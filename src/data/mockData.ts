@@ -1,5 +1,5 @@
 /**
- * Centralized structured mock dataset for C.O.S.TI
+ * Centralized structured mock dataset for POST
  * Prepared for future decoupling and direct integration with Zabbix 7.4 / FastAPI gateway.
  */
 
@@ -11,7 +11,7 @@ import {
   TopologyNode,
   TopologyLink,
   IncidentCorrelation,
-} from '../types/costi';
+} from '../types/monitoring';
 
 export const FUNCTIONAL_AREAS: FunctionalArea[] = [
   {

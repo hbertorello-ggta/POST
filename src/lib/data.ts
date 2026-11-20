@@ -1,4 +1,4 @@
-/* COSTI - Minimal data generator */
+/* POST - Minimal data generator */
 export interface DeviceMetrics {
   cpu?: number;
   memory?: number;

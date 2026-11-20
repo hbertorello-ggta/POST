@@ -5,7 +5,7 @@ import {
   Device,
   FloatingWindowItem,
   MetricPeriod,
-} from './types/costi';
+} from './types/monitoring';
 import {
   SITES,
   FUNCTIONAL_AREAS,

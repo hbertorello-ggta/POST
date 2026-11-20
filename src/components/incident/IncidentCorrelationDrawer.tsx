@@ -4,7 +4,7 @@ import {
   Site,
   Device,
   OperationalStatus,
-} from '../../types/costi';
+} from '../../types/monitoring';
 import { StatusBadge } from '../common/StatusBadge';
 import { DeviceIcon } from '../common/DeviceIcon';
 import {
@@ -224,7 +224,7 @@ export const IncidentCorrelationDrawer: React.FC<IncidentCorrelationDrawerProps>
 
                         <div className="p-3 rounded-lg bg-slate-950/50 border border-slate-800 space-y-2">
                           <p className="text-[11px] text-slate-400 leading-relaxed">
-                            En lugar de reportar {inc.affectedDevicesCount} alarmas aisladas sin contexto, el motor de correlación C.O.S.TI agrupa estos dispositivos como consecuencia directa de la caída del firewall/enlace perimetral:
+                            En lugar de reportar {inc.affectedDevicesCount} alarmas aisladas sin contexto, el motor de correlación POST agrupa estos dispositivos como consecuencia directa de la caída del firewall/enlace perimetral:
                           </p>
 
                           <div className="flex flex-wrap gap-1.5 pt-1">

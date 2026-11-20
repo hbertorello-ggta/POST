@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { OperationalStatus, DeviceCriticality } from '../types/costi';
+import { OperationalStatus, DeviceCriticality } from '../types/monitoring';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

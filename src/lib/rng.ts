@@ -1,4 +1,4 @@
-/* COSTI - Minimal RNG */
+/* POST - Minimal RNG */
 export function hash32(str: string) {
   let h = 2166136261;
   for (let i = 0; i < str.length; i++) {

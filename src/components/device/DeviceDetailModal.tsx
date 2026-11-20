@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import {
   Device,
   MetricPeriod,
-} from '../../types/costi';
+} from '../../types/monitoring';
 import { StatusBadge } from '../common/StatusBadge';
 import { DeviceIcon } from '../common/DeviceIcon';
-import { generateTimeSeriesMetrics } from '../../utils/costiLogic';
+import { generateTimeSeriesMetrics } from '../../utils/monitoringLogic';
 import {
   X,
   Maximize2,

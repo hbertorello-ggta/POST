@@ -3,10 +3,10 @@ import {
   FloatingWindowItem,
   MetricPeriod,
   Device,
-} from '../../types/costi';
+} from '../../types/monitoring';
 import { DeviceIcon } from '../common/DeviceIcon';
 import { StatusBadge } from '../common/StatusBadge';
-import { generateTimeSeriesMetrics } from '../../utils/costiLogic';
+import { generateTimeSeriesMetrics } from '../../utils/monitoringLogic';
 import {
   X,
   Minimize2,
