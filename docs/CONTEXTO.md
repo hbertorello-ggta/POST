@@ -58,12 +58,50 @@ modular y escalable**. "Sitio", "planta" y "ubicación" son lo mismo.
 - Items por tipo, configurables y ampliables: servidor = CPU, memoria, disco (% o MB/GB) + ping; UPS = ping, temperatura,
   entrada/salida, autonomía; impresora = ping (+ items extra como horas); switch = tráfico por puerto; servicios clave.
   Paneles: series de tiempo (rango elegible) para ping/CPU, "stat" para valores puntuales (ej. °C).
-- **Topología de red** (vista `eye` por defecto / modo configuración `settings` con Guardar y Descartar): nube "Internet" con
-  1 o 2 proveedores por sitio; nodos traídos de Zabbix y elegibles; selector por categoría (Firewall = sitio+network+firewall,
-  Switch = sitio+network+switch, Servidores = sitio+servidor); conectar arrastrando desde una flecha bajo el nodo (el destino
-  se ilumina), eliminar conexión, asignar a la línea un item de tráfico del puerto; armado automático por LLDP si hay datos.
+- **Topología de red:** ver la sección "Topología de red — detalle" más abajo.
 - Diseño: iconos acordes a cada host, sonidos con botón de silenciar, animaciones, varios temas (claro/oscuro y otros)
   sin tipografías rebuscadas que afecten la lectura de datos.
+
+## Topología de red — detalle
+
+### Qué existe hoy en el código (`src/components/topology/NetworkTopologyView.tsx`, solo datos simulados del sitio Pilar)
+Zoom y desplazamiento del lienzo; mover nodos arrastrando; "Auto-organizar" por niveles (core / distribución / acceso);
+"Agregar nodo" (modal con lista de dispositivos simulados); "Crear enlace" manual mediante un modal (nodo origen y destino,
+puertos, velocidad, VLAN); eliminar enlace; panel lateral inspector de nodo o enlace; "Guardar vista" (solo muestra un aviso,
+**no persiste nada**). Los controles de edición solo se ven con el perfil `admin` (selector Soporte/Admin de la barra superior).
+**No existe todavía:** nube de Internet y proveedores, modos ojo/engranaje, Guardar/Descartar, conexión arrastrando desde una
+flecha, datos reales de Zabbix, persistencia en PostgreSQL, ni armado automático por LLDP.
+
+### Comportamiento deseado
+1. **Dos modos.** *Visualizar* (icono ojo, por defecto): al hacer click en un nodo se ven los detalles del dispositivo; no se
+   puede modificar nada. *Configurar* (icono engranaje): todo es editable, los cambios quedan en borrador y hay botones
+   **Guardar** y **Descartar** (descartar vuelve exactamente al último estado guardado, para deshacer errores sin consecuencias).
+2. **Internet.** Una nube que representa Internet; se agregan 1 o 2 proveedores (según el sitio) y se conectan como cualquier nodo.
+3. **Nodos.** En configuración se eligen los hosts del sitio que se verán en el diagrama (los demás no se agregan). Hay un
+   desplegable de categorías (Todos / Firewall / Switch / Servidores / ...) para no mostrar una lista interminable, con la cantidad
+   por categoría (la API ya la devuelve en `summary`). Ejemplo en Casa Central: Firewall = `sitio:CAP` + `network` + `firewall`;
+   Switch = `sitio:CAP` + `network` + `switch`; Servidores = `sitio:CAP` + `servidor` (no llevan `network`).
+4. **Conexiones.** Debajo de cada nodo aparece una flecha: se hace click, se arrastra sin soltar hasta otro nodo, el nodo destino
+   se ilumina, y al soltar se crea la conexión. Una conexión se puede eliminar. Esto reemplaza al modal actual de "Crear enlace"
+   (el modal puede quedar como opción para elegir puertos).
+5. **Item en el enlace.** Al seleccionar una línea se puede asignar, opcionalmente, un item de Zabbix (el tráfico del puerto que
+   conecta); si lo tiene, se muestra el tráfico en la línea o en el inspector.
+6. **Armado automático por LLDP.** Si los switch o firewall tienen los datos (tags `component: topology`, `edge_target`,
+   `edge_target_port`, `puerto` e item `Port {#SNMPINDEX}: Link to {#REMOTE_SYSNAME}`), la topología se propone sola. Si no hay
+   datos, queda manual y se guarda. **Riesgo:** en Zabbix muchos equipos se llaman por su IP (ej. `172.16.4.10`) mientras que
+   `REMOTE_SYSNAME` es el nombre del equipo, así que hace falta un modo de emparejarlos (por nombre, por IP o una asignación
+   manual que se hace una sola vez).
+7. **Persistencia.** Nodos, posiciones, proveedores, enlaces e item asignado se guardan en PostgreSQL por sitio
+   (propuesta: tablas `topology_nodes` y `topology_links`, con `site_code`, tipo de nodo `host|internet|isp`, `hostid` cuando
+   corresponda, posición, puertos e `itemid`).
+8. **Estado en vivo.** Nodos y enlaces se colorean según el estado real en Zabbix y se actualizan periódicamente.
+
+### Supuestos por confirmar (corregir si no coinciden)
+- La topología es **una por sitio y compartida por todos los usuarios** (refleja la red física). Lo personal es qué sitios ve cada uno.
+- Sin login, cualquiera puede entrar al modo configuración; cuando haya SSO/Active Directory se limitará por rol.
+  (Hoy depende del selector Soporte/Admin.)
+- Los proveedores de Internet se cargan a mano (no son hosts de Zabbix); su enlace puede tener un item opcional (ping o tráfico).
+- Varias conexiones entre los mismos dos nodos (troncales, agregaciones): por definir.
 
 ## Estado
 Hecho (commit `a404b04`): renombrado a POST, backend + PostgreSQL + Zabbix, sitios, categorías, ajustes por host, transiciones.
